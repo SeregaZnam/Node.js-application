@@ -1,7 +1,11 @@
-import * as config from './config/config.json';
-import {Product, User} from './models';
+import {DirWatcher} from './main/dir-watcher';
+import {Importer} from './main/importer';
 
-console.log(config.name);
+const watcher = new DirWatcher();
+watcher.watch('./data');
 
-const user = new User();
-const product = new Product();
+const importer = new Importer(watcher);
+
+importer.import()
+	.then(d => console.log(d))
+	.catch(e => console.log(e));
